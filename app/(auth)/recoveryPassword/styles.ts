@@ -33,8 +33,3 @@ export const NewAccount = styled.Text`
 
   margin-bottom: 32px;
 `
-
-export const Line = styled.View`
-flex-direction: row;
-justify-content: space-between;
-`

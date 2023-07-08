@@ -8,8 +8,8 @@ export default () => {
       }}
     >
       <Stack.Screen name='signin/index' />
-      <Stack.Screen name='signup' />
-      <Stack.Screen name='recoveryPassword' />
+      <Stack.Screen name='signup/index' />
+      <Stack.Screen name='recoveryPassword/index' />
     </Stack>
   );
 };

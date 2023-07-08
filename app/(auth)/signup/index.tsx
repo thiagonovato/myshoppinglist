@@ -4,7 +4,7 @@ import AuthContext from '../../contexts/AuthContext';
 import { Button } from '../../components/Button';
 
 import backgroundImg from '../../assets/background.png';
-import { Container, Line, NewAccount, Slogan, Title } from './styles';
+import { Container, NewAccount, Slogan, Title } from './styles';
 import { Input } from '../../components/Input';
 import { Alert, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
@@ -20,38 +20,30 @@ export default function SignIn() {
   async function onPress() {
     if (!email || !password)
       return Alert.alert('Error', 'Email or password empty');
-    signIn(email, password);
+    signUp(email, password);
   }
 
   return (
     <Container source={backgroundImg}>
       <Title>My Shopping List</Title>
-      <Slogan>Your best list</Slogan>
+      <Slogan>New Account</Slogan>
       <Input placeholder='Email' onChangeText={setEmail} />
       <Input
         placeholder='Password'
         style={{ marginTop: 20 }}
         onChangeText={setPassword}
         secureTextEntry={true}
+        inputMode='email'
       />
       <Button
-        title='Enter'
+        title='Create new account'
         onPress={onPress}
         isLoading={loadingSignIn || loadingSignUp}
         style={{ marginVertical: 20 }}
       />
-      <Line>
-        <TouchableOpacity>
-          <NewAccount onPress={() => router.push('recoveryPassword')}>
-            Forgot Password
-          </NewAccount>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <NewAccount onPress={() => router.push('signup')}>
-            New Account
-          </NewAccount>
-        </TouchableOpacity>
-      </Line>
+      <TouchableOpacity>
+        <NewAccount onPress={() => router.back()}>Back</NewAccount>
+      </TouchableOpacity>
     </Container>
   );
 }

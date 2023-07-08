@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 import { auth } from '../../firebaseConfig';
 import { Alert } from 'react-native';
@@ -16,6 +17,8 @@ interface AuthContextData {
   signUp(email: string, password: string): Promise<void>;
   loadingSignUp: boolean;
   signOut(): void;
+  recoveryPassword(email: string): Promise<void>;
+  loadingRecoveryPassword: boolean;
 }
 
 type ContainerProps = {
@@ -30,6 +33,8 @@ export const AuthProvider = (props: ContainerProps) => {
   const [loadingSignUp, setLoadingSignUp] = useState<boolean>(false);
   const [user, setUser] = useState<object | null>(null);
   const [loadingStatus, setLoadingStatus] = useState<boolean>(true);
+  const [loadingRecoveryPassword, setLoadingRecoveryPassword] =
+    useState<boolean>(false);
 
   const messageError = new Map()
     .set('auth/weak-password', 'Weak password')
@@ -37,7 +42,6 @@ export const AuthProvider = (props: ContainerProps) => {
 
   useEffect(() => {
     const subscribe = auth.onAuthStateChanged((userInfo) => {
-      console.log('CHECOU...', userInfo);
       setLoadingStatus(false);
       setUser(userInfo);
       if (userInfo) {
@@ -85,6 +89,25 @@ export const AuthProvider = (props: ContainerProps) => {
     setUser(null);
   }
 
+  async function recoveryPassword(email: string) {
+    setLoadingRecoveryPassword(true);
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        router.replace('signin');
+        Alert.alert('', 'Email sent.');
+      })
+      .catch((error) => {
+        if (messageError.has(error.code)) {
+          Alert.alert('Erro', messageError.get(error.code));
+        } else {
+          Alert.alert('Erro', 'Check your data and try again');
+        }
+      })
+      .finally(() => {
+        setLoadingRecoveryPassword(false);
+      });
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -96,6 +119,8 @@ export const AuthProvider = (props: ContainerProps) => {
         loadingSignUp,
         signOut,
         loadingStatus,
+        recoveryPassword,
+        loadingRecoveryPassword,
       }}
     >
       {props.children}
