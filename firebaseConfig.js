@@ -1,10 +1,8 @@
 import { API_KEY, AUTH_DOMAIN, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID, MEASUREMENT_ID } from "@env"
 import { initializeApp } from 'firebase/app';
 
-// Optionally import the services that you want to use
 import { getAuth } from "firebase/auth";
-// import {...} from "firebase/database";
-// import {...} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 // import {...} from "firebase/functions";
 // import {...} from "firebase/storage";
 
@@ -22,3 +20,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
+export const db = getFirestore(app)

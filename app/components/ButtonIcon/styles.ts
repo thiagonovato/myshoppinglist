@@ -10,6 +10,6 @@ export const Container = styled.TouchableOpacity<Props>`
   align-items: center;
   border-radius: 5px;
   background-color:  ${({ color, theme }) => color === 'success' ? theme.COLORS.GREEN : theme.COLORS.RED};
-  width: ${({ size }) => size === 'small' ? 40 : 60}px;
-  height: ${({ size }) => size === 'small' ? 40 : 60}px;
+  width: ${({ size }) => size === 'small' ? 40 : 55}px;
+  height: ${({ size }) => size === 'small' ? 40 : 55}px;
 `;
