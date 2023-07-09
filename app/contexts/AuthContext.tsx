@@ -45,7 +45,7 @@ export const AuthProvider = (props: ContainerProps) => {
       setLoadingStatus(false);
       setUser(userInfo);
       if (userInfo) {
-        router.replace('/home');
+        router.replace('yourList');
       } else {
         router.replace('signin');
       }
@@ -59,7 +59,7 @@ export const AuthProvider = (props: ContainerProps) => {
       .then((userCredential) => {
         const user = userCredential.user;
         setUser(user);
-        router.replace('/home');
+        router.replace('yourList');
       })
       .catch((error) => {
         Alert.alert('Erro', 'User or password incorrect.');
