@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 
 import { ButtonIcon } from '../ButtonIcon';
 import { Container, Info, Title, Options } from './styles';
-import { Alert, TouchableOpacity } from 'react-native';
-import ListContext from '../../contexts/ListContext';
-import { useRouter } from 'expo-router';
+import { Alert } from 'react-native';
+import ItemsContext from '../../contexts/ItemContext';
 
 export type ListProps = {
   id: string;
@@ -13,13 +12,11 @@ export type ListProps = {
 };
 
 type Props = {
-  data: ListProps;
+  data: any;
 };
 
-export function FullListItem({ data }: Props) {
-  const router = useRouter();
-
-  const { handleDelete, setSelectedList } = useContext(ListContext);
+export function FullItemListItem({ data }: Props) {
+  const { handleDelete, handleDoneToggle } = useContext(ItemsContext);
 
   function handleConfirmDelete() {
     Alert.alert('Attention', `Confirm exclusion of ${data.name}?`, [
@@ -33,20 +30,20 @@ export function FullListItem({ data }: Props) {
     ]);
   }
 
-  function handleScreen(data: {}) {
-    setSelectedList(data);
-    router.push({ pathname: 'list', params: data });
-  }
-
   return (
     <Container>
       <Info>
-        <TouchableOpacity onPress={() => handleScreen(data)}>
-          <Title>{data.name}</Title>
-        </TouchableOpacity>
+        <Title done={data.done}>{data.description}</Title>
       </Info>
 
       <Options>
+        <ButtonIcon
+          icon={data.done ? 'undo' : 'check'}
+          onPress={() => handleDoneToggle(data.id, data.done)}
+          style={{
+            marginRight: 5,
+          }}
+        />
         <ButtonIcon icon='delete' color='alert' onPress={handleConfirmDelete} />
       </Options>
     </Container>

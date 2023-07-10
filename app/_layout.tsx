@@ -11,6 +11,7 @@ import { Loading } from './components/Loading';
 import { AuthProvider } from './contexts/AuthContext';
 import { StatusBar } from 'expo-status-bar';
 import { ListsProvider } from './contexts/ListContext';
+import { ItemsProvider } from './contexts/ItemContext';
 
 const StackLayout = () => {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
@@ -24,14 +25,16 @@ const StackLayout = () => {
       <StatusBar style='light' />
       <AuthProvider>
         <ListsProvider>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen name='(tabs)' />
-            <Stack.Screen name='(auth)' />
-          </Stack>
+          <ItemsProvider>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+              }}
+            >
+              <Stack.Screen name='(tabs)' />
+              <Stack.Screen name='(auth)' />
+            </Stack>
+          </ItemsProvider>
         </ListsProvider>
       </AuthProvider>
     </ThemeProvider>
